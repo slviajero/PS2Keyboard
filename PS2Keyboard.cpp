@@ -398,7 +398,7 @@ PS2Keyboard::PS2Keyboard() {
 void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &map) {
   uint8_t irq_num=255;
 
-// should go elsewhere later -> utility
+// patch Stefan Lenz
 #ifdef ESP8266
 #define CORE_INT_EVERY_PIN
 #endif
@@ -549,7 +549,13 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   head = 0;
   tail = 0;
   if (irq_num < 255) {
+
+// patch Stefan Lenz
+#ifdef ESP8266
       attachInterrupt(digitalPinToInterrupt(irq_num), ps2interrupt, FALLING);
+#else 
+      attachInterrupt(irq_num, ps2interrupt, FALLING);
+#endif
   }
 }
 
