@@ -358,6 +358,10 @@ bool PS2Keyboard::available() {
 	return false;
 }
 
+int PS2Keyboard::peek() {
+	if (available()) return CharBuffer; else return 0;
+}
+
 int PS2Keyboard::read() {
 	uint8_t result;
 

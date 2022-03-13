@@ -207,6 +207,8 @@ class PS2Keyboard {
      */
     static int read();
     static int readUnicode();
+
+    static int peek();	
 };
 
 #endif
