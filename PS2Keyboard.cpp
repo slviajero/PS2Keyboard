@@ -405,7 +405,7 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   uint8_t irq_num=255;
 
 /* patch Stefan Lenz, ESP does not set the CORE_INT_EVERY_PIN */
-#if defindef(ESP8266)
+#if defined(ESP8266)
 #define CORE_INT_EVERY_PIN
 #endif
 
