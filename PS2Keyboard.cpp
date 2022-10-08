@@ -7,6 +7,8 @@
   ** Modified for use beginning with Arduino 13 by L. Abraham Smith, <n3bah@microcompdesign.com> * 
   ** Modified for easy interrup pin assignement on method begin(datapin,irq_pin). Cuningan <cuninganreset@gmail.com> **
 
+  ** modified by Stefan Lenz, peek function and a bit more
+
   for more information you can read the original wiki in arduino.cc
   at http://www.arduino.cc/playground/Main/PS2Keyboard
   or http://www.pjrc.com/teensy/td_libs_PS2Keyboard.html
@@ -58,7 +60,7 @@ static uint8_t CharBuffer=0;
 static uint8_t UTF8next=0;
 static const PS2Keymap_t *keymap=NULL;
 
-// Patch Stefan Lenz ESP8266
+/* Patch Stefan Lenz ESP8266 needed the ICACHE_RAM_ATTR macro */
 // The ISR for the external interrupt
 #ifdef ICACHE_RAM_ATTR
 ICACHE_RAM_ATTR void ps2interrupt(void)
@@ -402,8 +404,8 @@ PS2Keyboard::PS2Keyboard() {
 void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &map) {
   uint8_t irq_num=255;
 
-// patch Stefan Lenz
-#ifdef ESP8266
+/* patch Stefan Lenz, ESP does not set the CORE_INT_EVERY_PIN */
+#if defindef(ESP8266)
 #define CORE_INT_EVERY_PIN
 #endif
 
@@ -424,7 +426,6 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
 
 #ifdef CORE_INT_EVERY_PIN
   irq_num = irq_pin;
-
 #else
   switch(irq_pin) {
     #ifdef CORE_INT0_PIN
@@ -554,8 +555,8 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   tail = 0;
   if (irq_num < 255) {
 
-// patch Stefan Lenz
-#ifdef ESP8266
+/* patch Stefan Lenz, use attachPinToInterrupt where it is convenient */
+#if defined(ESP8266)
       attachInterrupt(digitalPinToInterrupt(irq_num), ps2interrupt, FALLING);
 #else 
       attachInterrupt(irq_num, ps2interrupt, FALLING);

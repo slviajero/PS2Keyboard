@@ -7,6 +7,8 @@
   ** Modified for use with Arduino 13 by L. Abraham Smith, <n3bah@microcompdesign.com> * 
   ** Modified for easy interrup pin assignement on method begin(datapin,irq_pin). Cuningan <cuninganreset@gmail.com> **
 
+  ** modified by Stefan Lenz, some ESP things and the peek() function
+
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -208,6 +210,11 @@ class PS2Keyboard {
     static int read();
     static int readUnicode();
 
+    /**
+     * peek() returns the next character from the buffer 
+     * without removing it. SL 2022.
+     */
+#define PS2KEYBOARD_HASPEEK 
     static int peek();	
 };
 
