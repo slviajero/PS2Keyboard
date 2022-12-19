@@ -405,7 +405,7 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   uint8_t irq_num=255;
 
 /* patch Stefan Lenz, ESP does not set the CORE_INT_EVERY_PIN */
-#if defined(ESP8266)
+#if defined(ESP8266)||defined(ARDUINO_ARCH_MBED)||defined(ARDUINO_ARCH_MEGAAVR)
 #define CORE_INT_EVERY_PIN
 #endif
 
@@ -556,7 +556,7 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
   if (irq_num < 255) {
 
 /* patch Stefan Lenz, use attachPinToInterrupt where it is convenient */
-#if defined(ESP8266)
+#if defined(ESP8266)||defined(ARDUINO_ARCH_MBED)||defined(ARDUINO_ARCH_MEGAAVR)
       attachInterrupt(digitalPinToInterrupt(irq_num), ps2interrupt, FALLING);
 #else 
       attachInterrupt(irq_num, ps2interrupt, FALLING);
