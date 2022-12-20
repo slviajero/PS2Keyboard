@@ -11,4 +11,7 @@ Modifications by Stefan Lenz:
 
 	- ESP8266 code, interrupt handling 
 	- peek() function to return the keyboard character
+	- patches for Arduino Mbeb and Mega AVR boards - also interrupt handling
+
+	
 
